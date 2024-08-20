@@ -93,58 +93,42 @@ tr:hover {
     </table>
 </body>
 <script>
-    document.getElementById('Fetch').addEventListener('click',async()=>{
+    function get(){
+        
+        document.getElementById('Fetch').addEventListener('click',()=>{
         const input = document.getElementById('data').value;
-    
-        // console.log(input)
-        async function getData(){
-            try {
-                const response = await fetch(input);
-                const data = await response.json();
-                // if (response.ok){
-                //     alert("Data Fetch Successfully")
-                // }
-                // displayData(data);
-                const tableBody = document.querySelector('tbody');
-                // tableBody.innerHTML = '';
-                 data.forEach(item => {
-                
-                        const row = document.createElement('tr');
-                        row.innerHTML = `
-                            <td>${item.userId}</td>
-                            <td>${item.id}</td>
-                            <td>${item.title}</td>
-                            <td>${item.body}</td>
-                        `;
-                        tableBody.appendChild(row);
-                    
-                    return getData;
-            });
+        
+        return new Promise(function(resolve,reject){
+            fetch(`${input}`)
+        
+       .then(response => response.json())
+       .then(data => {console.log(data)
             
+            const tableBody = document.querySelector('tbody');
+            // tableBody.innerHTML = '';
+            data.forEach(item => {
             
-            } catch (error) {
-                console.error('Error:', error);
-            }
+                    const row = document.createElement('tr');
+                    row.innerHTML = `
+                        <td>${item.userId}</td>
+                        <td>${item.id}</td>
+                        <td>${item.title}</td>
+                        <td>${item.body}</td>
+                    `;
+                    tableBody.appendChild(row);
+        });
         
-        
-        }
-        
-        
-        // setTimeout(()=>{
-        //     console.log('before')
-        // },2000)
-        console.log('before')
-        
-        await getData()
-        
-        console.log('after')
-      
-        
-        
-        
+       })
        
-    })      
-    
+       .catch(error => console.error('Error:', error));
+
+        }) 
+        
+        
+        
+    })
+}
+    get()
     
 </script>
 </html>
